@@ -52,8 +52,8 @@
     "CHANGELOG.md"
   ],
   "scripts": {
-    "build": "tsdown",
-    "dev": "tsdown --watch",
+    "build": "tsdown --config-loader native",
+    "dev": "tsdown --config-loader native --watch",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
