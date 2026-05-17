@@ -1,0 +1,79 @@
+{
+  "name": "przelewy24-ts-sdk",
+  "version": "0.0.0",
+  "description": "Modern, fully-typed Przelewy24 (P24) payments SDK for Node.js, Bun, and Deno — zero dependencies, native fetch, ESM + CJS.",
+  "keywords": [
+    "przelewy24",
+    "p24",
+    "payments",
+    "poland",
+    "sdk",
+    "typescript",
+    "fetch"
+  ],
+  "license": "MIT",
+  "author": "Michał Zagalski",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zagi/przelewy24-ts-sdk.git"
+  },
+  "homepage": "https://github.com/zagi/przelewy24-ts-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/zagi/przelewy24-ts-sdk/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./webhooks": {
+      "types": "./dist/webhooks.d.ts",
+      "import": "./dist/webhooks.js",
+      "require": "./dist/webhooks.cjs"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "format:check": "biome format .",
+    "check": "biome check .",
+    "release": "bumpp && pnpm publish",
+    "prepublishOnly": "pnpm run build"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.15",
+    "@types/node": "^25.8.0",
+    "@vitest/coverage-v8": "^4.1.6",
+    "bumpp": "^11.1.0",
+    "changelogen": "^0.6.2",
+    "msw": "^2.14.6",
+    "tsdown": "^0.22.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.6"
+  }
+}
