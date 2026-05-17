@@ -1,6 +1,6 @@
 {
-  "name": "przelewy24-ts-sdk",
-  "version": "0.0.0",
+  "name": "@zagi_14/przelewy24-ts-sdk",
+  "version": "0.1.0",
   "description": "Modern, fully-typed Przelewy24 (P24) payments SDK for Node.js, Bun, and Deno — zero dependencies, native fetch, ESM + CJS.",
   "keywords": [
     "przelewy24",

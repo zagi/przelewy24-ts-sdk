@@ -1,11 +1,11 @@
-# przelewy24-ts-sdk
+# @zagi_14/przelewy24-ts-sdk
 
 Modern, fully-typed Przelewy24 (P24) payments SDK for Node.js — zero dependencies, native fetch, ESM + CJS.
 
-[![npm version](https://img.shields.io/npm/v/przelewy24-ts-sdk)](https://www.npmjs.com/package/przelewy24-ts-sdk)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/przelewy24-ts-sdk)](https://bundlephobia.com/package/przelewy24-ts-sdk)
+[![npm version](https://img.shields.io/npm/v/@zagi_14/przelewy24-ts-sdk)](https://www.npmjs.com/package/@zagi_14/przelewy24-ts-sdk)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@zagi_14/przelewy24-ts-sdk)](https://bundlephobia.com/package/@zagi_14/przelewy24-ts-sdk)
 [![CI](https://github.com/zagi/przelewy24-ts-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/zagi/przelewy24-ts-sdk/actions/workflows/ci.yml)
-[![license](https://img.shields.io/npm/l/przelewy24-ts-sdk)](./LICENSE)
+[![license](https://img.shields.io/npm/l/@zagi_14/przelewy24-ts-sdk)](./LICENSE)
 
 ## Why this SDK
 
@@ -14,9 +14,9 @@ Przelewy24 only ships official SDKs for iOS and Android — there is no first-pa
 ## Install
 
 ```bash
-pnpm add przelewy24-ts-sdk
+pnpm add @zagi_14/przelewy24-ts-sdk
 # or
-npm install przelewy24-ts-sdk
+npm install @zagi_14/przelewy24-ts-sdk
 ```
 
 Requires Node.js `>=20.11` (or any runtime with a global `fetch` and `node:crypto`).
@@ -24,8 +24,8 @@ Requires Node.js `>=20.11` (or any runtime with a global `fetch` and `node:crypt
 ## Quick start
 
 ```typescript
-import { createClient, isP24Error } from 'przelewy24-ts-sdk';
-import { verifyWebhook } from 'przelewy24-ts-sdk/webhooks';
+import { createClient, isP24Error } from '@zagi_14/przelewy24-ts-sdk';
+import { verifyWebhook } from '@zagi_14/przelewy24-ts-sdk/webhooks';
 
 const p24 = createClient({
   merchantId: 12345,
@@ -106,7 +106,7 @@ Both forms create a fully-configured client. `createClient` is a convenience fac
 Returns: `P24Client`.
 
 ```typescript
-import { createClient } from 'przelewy24-ts-sdk';
+import { createClient } from '@zagi_14/przelewy24-ts-sdk';
 
 const p24 = createClient({
   merchantId: 12345,
@@ -261,12 +261,12 @@ const { orderId } = await p24.chargeCard({
 
 ## Webhooks
 
-P24 sends an asynchronous notification (the "transaction status" webhook) to the `urlStatus` you registered. You **must** verify the SHA-384 signature on every webhook before trusting any field. The standalone helper at `przelewy24-ts-sdk/webhooks` does not require an SDK client instance, so it is cheap to call from edge runtimes and serverless handlers.
+P24 sends an asynchronous notification (the "transaction status" webhook) to the `urlStatus` you registered. You **must** verify the SHA-384 signature on every webhook before trusting any field. The standalone helper at `@zagi_14/przelewy24-ts-sdk/webhooks` does not require an SDK client instance, so it is cheap to call from edge runtimes and serverless handlers.
 
 ```typescript
 import type { Request, Response } from 'express';
-import { verifyWebhook } from 'przelewy24-ts-sdk/webhooks';
-import { isP24Error } from 'przelewy24-ts-sdk';
+import { verifyWebhook } from '@zagi_14/przelewy24-ts-sdk/webhooks';
+import { isP24Error } from '@zagi_14/przelewy24-ts-sdk';
 
 export function p24WebhookHandler(req: Request, res: Response): void {
   try {
@@ -321,7 +321,7 @@ Every error thrown by the SDK is a subclass of `P24Error`. Use the `isP24Error` 
 | `isP24Error(e)`      | Type guard that matches any of the above.                            | —                                |
 
 ```typescript
-import { isP24Error, P24ApiError } from 'przelewy24-ts-sdk';
+import { isP24Error, P24ApiError } from '@zagi_14/przelewy24-ts-sdk';
 
 try {
   await p24.registerTransaction({
@@ -358,7 +358,7 @@ P24 signs every request body and webhook with SHA-384 over a JSON-encoded subset
 The signature is `sha384(JSON.stringify({ ...fieldsInOrder })).digest('hex')`. The SDK exposes `signFields` from the public surface if you need to reproduce a signature in test code:
 
 ```typescript
-import { signFields } from 'przelewy24-ts-sdk';
+import { signFields } from '@zagi_14/przelewy24-ts-sdk';
 
 const sign = signFields({
   sessionId: 'order-1',
