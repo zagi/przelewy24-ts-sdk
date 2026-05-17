@@ -2,19 +2,41 @@ import { signFields, timingSafeEqualHex } from './crypto';
 import { P24SignatureError } from './errors';
 import type { WebhookPayload } from './types';
 
+/**
+ * Options accepted by `verifyWebhook`.
+ */
 export interface VerifyWebhookOptions {
+  /** Merchant ID configured on this server (used to reject wrong-tenant payloads). */
   merchantId: number;
+  /** The "CRC key" from the P24 admin panel. */
   crcKey: string;
+  /** Raw JSON string (preferred) or a parsed `WebhookPayload`. */
   payload: WebhookPayload | string;
 }
 
 /**
- * Verify a P24 webhook notification.
+ * Verify and decode a P24 webhook notification.
  *
- * Throws `P24SignatureError` on any mismatch — malformed JSON, wrong
- * merchantId, or invalid SHA-384 signature. Available standalone via
- * `import { verifyWebhook } from 'przelewy24-ts-sdk/webhooks'` so webhook
- * handlers don't need to instantiate the full SDK client.
+ * Available standalone from `'przelewy24-ts-sdk/webhooks'` so webhook
+ * handlers do not need to instantiate the full SDK client. Prefer passing
+ * the raw request body string — verifying after `JSON.parse` works too,
+ * but a string keeps the signing-input bytes under the caller's control.
+ *
+ * @param options - Merchant credentials and the raw or parsed payload.
+ * @returns The decoded `WebhookPayload` when the signature checks out.
+ * @throws {P24SignatureError} When the payload is malformed JSON, has the
+ *   wrong `merchantId`, or its SHA-384 signature does not match.
+ *
+ * @example
+ * ```typescript
+ * import { verifyWebhook } from 'przelewy24-ts-sdk/webhooks';
+ *
+ * const payload = verifyWebhook({
+ *   merchantId: 12345,
+ *   crcKey: process.env.P24_CRC_KEY ?? '',
+ *   payload: rawBody,
+ * });
+ * ```
  */
 export function verifyWebhook(options: VerifyWebhookOptions): WebhookPayload {
   const parsed = typeof options.payload === 'string' ? parseJson(options.payload) : options.payload;
